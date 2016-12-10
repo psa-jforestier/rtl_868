@@ -35,7 +35,7 @@ int ws300_init( data_logger_t *next ) {
   logging_info( "WS300 decoder initialized.\n" );
 }
 
-int ws300_input(int transmission[], unsigned length) {
+int ws300_input(int transmission[], unsigned length,int noise, int signal) {
   /* decoding the result:
    *  aa aa 2d d4 51 11 4d 07 29 21 00
    *                             ^^ checksumme
@@ -75,7 +75,7 @@ int ws300_input(int transmission[], unsigned length) {
   float rel_hum = 1.0 * tm[7];
   float temp = 1.0 * tm[5] + 0.1 * tm[6] - 50.0;
   logging_info( "Recieved dataset: hauscode=%i, channel=%i, temp=%1.1f°C, rel_hum=%1.0f%%.\n", hauscode, channel, temp, rel_hum );
-  return ws300_next->input( (hauscode<<8) | channel, temp, rel_hum, 0 );
+  return ws300_next->input( (hauscode<<8) | channel, temp, rel_hum, 0, noise, signal );
 }
   
   

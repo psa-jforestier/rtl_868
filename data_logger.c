@@ -36,7 +36,7 @@ int dl_file_init( FILE *out ) {
   logging_info( "Data_Logger initialized.\n" );
 }
 
-int dl_file_input(int sensor_id, float temp, float rel_hum, int flags) {
+int dl_file_input(int sensor_id, float temp, float rel_hum, int flags, int noise, int signal) {
   /* output into octave readable file */
   /* decorate with timestamp and seconds since start of program */
   
@@ -51,7 +51,7 @@ int dl_file_input(int sensor_id, float temp, float rel_hum, int flags) {
 
   logging_info( "%04i-%02i-%02i %02i:%02i:%02i, %lli, %i, %1.2f, %1.2f, %i.\n", ts.tm_year+1900, ts.tm_mon+1, ts.tm_mday, ts.tm_hour, ts.tm_min, ts.tm_sec, (long long int)cur_time, sensor_id, temp, rel_hum, flags );
   if (rel_hum == 106) {
-    fprintf( dl_file_out, "%04i-%02i-%02i %02i:%02i:%02i, %lli, %i, %1.2f, nan, %i.\n", ts.tm_year+1900, ts.tm_mon+1, ts.tm_mday, ts.tm_hour, ts.tm_min, ts.tm_sec, (long long int)cur_time, sensor_id, temp, flags );
+    fprintf( dl_file_out, "%04i-%02i-%02i %02i:%02i:%02i, %lli, %i, %1.2f, nan, %i, (%d/%d).\n", ts.tm_year+1900, ts.tm_mon+1, ts.tm_mday, ts.tm_hour, ts.tm_min, ts.tm_sec, (long long int)cur_time, sensor_id, temp, flags, noise, signal );
   } else {
     fprintf( dl_file_out, "%04i-%02i-%02i %02i:%02i:%02i, %lli, %i, %1.2f, %1.2f, %i.\n", ts.tm_year+1900, ts.tm_mon+1, ts.tm_mday, ts.tm_hour, ts.tm_min, ts.tm_sec, (long long int)cur_time, sensor_id, temp, rel_hum, flags );
   }
