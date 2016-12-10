@@ -30,7 +30,7 @@ typedef struct {
   char *shorthand;
   // interface
   int (*init)(data_logger_t *next);
-  int (*input)(int transmission[], unsigned length);
+  int (*input)(int transmission[], unsigned length, int noise, int signal );
 } stream_decoder_t;
 
 

@@ -30,7 +30,7 @@ typedef struct {
   char *shorthand;
   // interface
   int (*init)(FILE *out);
-  int (*input)(int sensor_id, float temp, float rel_hum, int flags);
+  int (*input)(int sensor_id, float temp, float rel_hum, int flags, int noise, int signal);
 } data_logger_t;
 
 extern data_logger_t dl_file;

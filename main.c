@@ -38,9 +38,6 @@
 #include <time.h>
 #include <fcntl.h>
 
-#if defined(__MINGW32__) || defined(__MINGW64__)
-#include "os/windows.h"
-#endif
 int data_to_string( float data, float* base, char* cexp ) {
   // convert the value of data to base + exponent notation
   int exp = 0;
@@ -59,9 +56,9 @@ int data_to_string( float data, float* base, char* cexp ) {
 }
 
 FILE *in, *out;
-int duplicate_stream_input( int transmission[], unsigned int length ) {
-  if ((ws300.input( transmission, length) == 0) ||
-    (tx29.input(transmission, length) == 0))
+int duplicate_stream_input( int transmission[], unsigned int length, int noise, int signal ) {
+  if ((ws300.input( transmission, length, noise, signal) == 0) ||
+    (tx29.input(transmission, length, noise, signal) == 0))
     return 0;
   else if (verbose > 1) {
     if (length < 6) return -1;
@@ -75,6 +72,7 @@ int duplicate_stream_input( int transmission[], unsigned int length ) {
     return 0;
   }
 }
+
 
 int main (int argc, char **argv) {
 
@@ -212,10 +210,7 @@ int main (int argc, char **argv) {
   unsigned long long int last_ndata = 0;
   
   struct timespec last_status;
-#ifdef __APPLE__
-  last_status.tv_sec = time(NULL);
-  last_status.tv_nsec = 0;
-#elif defined(__MINGW32__) || defined(__MINGW64__)
+#if defined(__APPLE__) || defined(__MINGW32__) || defined(__MINGW64__)
   last_status.tv_sec = time(NULL);
   last_status.tv_nsec = 0;
 #else
@@ -238,10 +233,7 @@ int main (int argc, char **argv) {
     }
 
     struct timespec now;
-#ifdef __APPLE__
-    now.tv_sec = time(NULL);
-    now.tv_nsec = 0;
-#elif defined(__MINGW32__) || defined(__MINGW64__)
+#if defined(__APPLE__) || defined(__MINGW32__) || defined(__MINGW64__)
     now.tv_sec = time(NULL);
     now.tv_nsec = 0;
 #else

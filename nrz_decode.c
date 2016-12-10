@@ -175,7 +175,8 @@ int nrz_input(int transmission[], unsigned int length, int noise, int signal) {
     _logging_info( "%02x ", data[i] );
   _logging_info( "\n" );
   /// 3) handle to next decoder
-  if (nrz_next->input( data, datai ) == 0)
+  
+  if (nrz_next->input( data, datai,noise, signal ) == 0)
     nrz_ok++;
   else
     nrz_err++;

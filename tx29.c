@@ -34,7 +34,7 @@ int tx29_init( data_logger_t *next ) {
   logging_info( "TX29 decoder initialized.\n" );
 }
 
-int tx29_input(int transmission[], unsigned length) {
+int tx29_input(int transmission[], unsigned length, int noise, int signal) {
   // find preamble it is 2d d4 and stuff before must be aa
   unsigned int ofs;
   int i;
@@ -81,7 +81,7 @@ int tx29_input(int transmission[], unsigned length) {
     return -5;
   }
   logging_info( "Recieved dataset: sensid=%i, newbatt=%i, weakbatt=%i, temp=%1.1f°C, rel_hum=%1.0f%%.\n", sensid, newbatt, weakbatt, temp, rel_hum );
-  return tx29_next->input( sensid, temp, rel_hum, newbatt | (weakbatt << 1) );
+  return tx29_next->input( sensid, temp, rel_hum, newbatt | (weakbatt << 1), noise, signal );
 }
 
 
