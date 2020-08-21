@@ -192,7 +192,7 @@ int main (int argc, char **argv) {
   }
 
 
-  stream_decoder_t mysd = { .init = 0, .input = &duplicate_stream_input };
+  stream_decoder_t mysd = { .name = 0, .shorthand = 0, .init = 0, .input = &duplicate_stream_input };
   
   // construct the signal chain
   /* transmission decoder */

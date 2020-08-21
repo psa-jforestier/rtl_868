@@ -39,10 +39,13 @@ int dl_file_init( FILE *out ) {
 int dl_file_input(int sensor_id, float temp, float rel_hum, int flags, int noise, int signal) {
   /* output into octave readable file */
   /* decorate with timestamp and seconds since start of program */
-  
   time_t cur_time;
   struct tm ts;
+#if defined(__MINGW32__) || defined(__MINGW64__)
+  if ((time( &cur_time ) == 0)) {
+#else
   if ((time( &cur_time ) == 0) || (localtime_r(&cur_time, &ts) == 0)) {
+#endif
     logging_error( "Could not get current time.\n" );
     ts.tm_year = 0; ts.tm_mon = 0; ts.tm_mday = 0;
     ts.tm_hour = 0; ts.tm_min = 0; ts.tm_sec = 0;
